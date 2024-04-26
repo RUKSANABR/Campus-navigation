@@ -1,0 +1,3 @@
+pip install django-extensions Werkzeug pyopenssl
+pip install pyopenssl
+python manage.py runserver_plus --cert-file https\cert.pem --key-file https\key.pem

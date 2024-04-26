@@ -1,0 +1,239 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>campus</title>
+    <!-- Bootstrap core CSS and font-awesome-->
+    <!-- <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- Custom styles for this template -->
+    <link href="{% static 'lib/style/style.css' %}" rel="stylesheet">
+    <!--openlayers css and js part-->
+    <link rel="stylesheet" href="{% static 'lib/openlayers/ol.css' %}">
+    <script src="{% static 'lib/openlayers/ol.js' %}"></script>
+    <script src="{% static 'lib/openlayers/ol-ext.min.js' %}"></script>
+    <script src="{% static 'lib/openlayers/jsts.es6.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'lib/aframes.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/aframes-look-at-component.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/aframes-ar-nft.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'lib/jquery.min.js' %}"></script>
+
+
+    <link rel="stylesheet" href="{% static 'lib/openlayers/ol-ext.min.css' %}">
+
+</head>
+
+<body>
+    <div>
+
+        <div id="search">
+            <div class="container">
+
+                <form id="inputSearch">
+                    {% csrf_token %}
+                    <input class="form-control" type="search" id="searchInput" name="searchInput"
+                        placeholder="Search here...">
+                    <button id="searchbtn">Search</button>
+                    <div id="location">
+                        <button id="locate">
+                            <img src="{% static 'asset/icons/locateme.svg' %}" width="30px" alt="">
+                        </button>
+                    </div>
+                    <div id="direction">
+                        <button id="directionBtn">
+                            <img src="{% static 'asset/icons/direction.svg' %}" width="30px" alt="">
+                        </button>
+                    </div>
+                </form>
+                <div id="click">
+                    <button onclick="handleButtonClick()">Click me</button>
+                </div>
+
+            </div>
+            <div id="searchItemDisplayDiv" class="rectangular-box">
+
+            </div>
+        </div>
+
+
+        <div id="" class="full-screen">
+            <div id="map" class="mapClass"></div>
+
+            <div id="ar-area">
+                <a-scene id="ar-content" class="hidden" renderer="logarithmicDepthBuffer: true;" embedded
+                loading-screen="enabled: false;" arjs="sourceType: webcam; debugUIEnabled: false;">
+                <a-assets>
+                    <a-asset-item id="animated-asset" src="{% static 'asset/scene.gltf' %}"></a-asset-item>
+                </a-assets>
+
+                <a-entity id="main-modelEntity" look-at="[gps-camera]" animation-mixer="loop: repeat" gltf-model="#animated-asset"
+                    scale="0.1739130408867546 0.1739130408867546 0.1739130408867546"
+                    gps-entity-place="latitude: 8.527586957440617 ; longitude: 76.94799267667186;"></a-entity>
+
+                <a-camera gps-camera rotation-reader></a-camera>
+            </a-scene>
+            </div>
+        </div>
+
+        <div id="ar">
+            <button id="ar-toggle" class="button">AR</button>
+        </div>
+    
+
+    </div>
+
+    <script src="{% static 'lib/javascript/map.js' %}"></script>
+
+    <script>
+        var position = null;
+
+        document.getElementById('searchItemDisplayDiv').style.display = "none";
+        document.getElementById('searchInput').addEventListener('input', function () {
+            var searchInputValue = this.value.trim().toLowerCase();
+
+            $.ajax({
+                url: "{% url 'yourmodel-list' %}",
+                data: [],
+                type: 'GET',
+                success: function (result) {
+                    if (result.status === 200) {
+                        var outerDiv = document.getElementById('searchItemDisplayDiv');
+                        var tString = "";
+                        for (var i = 0; i < result.data.length; i++) {
+                            var buildingName = result.data[i]['building_name'].toLowerCase();
+                            if (buildingName.includes(searchInputValue)) {
+                                tString += '<div class="searchItemsDiv" latitude="' + result.data[i]['latitude'] + '" longitude ="' + result.data[i]['longitude'] + '" building_name="'
+                                tString += result.data[i]['building_name'] + '"'
+                                tString += '> <span>'
+                                tString += result.data[i]['building_name']
+                                tString += '</span></div>'
+                                console.log(result.data[i])
+                            }
+                        }
+
+                        outerDiv.innerHTML = tString;
+                        outerDiv.style.display = tString ? "block" : "none";
+
+                        var SerchItems = outerDiv.querySelectorAll('.searchItemsDiv')
+                        SerchItems.forEach(function (item, index) {
+                            item.addEventListener('click', function (evt) {
+                                var _buildingName = "my building"
+                                var _lat = parseFloat(item.getAttribute('latitude'))
+                                var _long = parseFloat(item.getAttribute('longitude'))
+                                var _loc_coordinates = [_long, _lat]
+                                var actual_coordinate = [item.getAttribute('longitude'), item.getAttribute('latitude')]
+                                handleItemClick(_buildingName, _loc_coordinates, actual_coordinate)
+                                outerDiv.style.display = "none";
+                                document.getElementById('direction').style.display = "block";
+                                document.getElementById('searchInput').value = item.getAttribute('building_name')
+                            })
+                        })
+
+
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        });
+
+
+
+
+        function handleItemClick(building_name, coordinate, actual_coordinate) {
+            var buildingPoint = Maps.MapOps.initPoints(coordinate);
+
+            Maps.MapOps.initGeotag();
+
+            var buildingNameFeature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(coordinate)),
+                name: building_name
+            });
+
+            vectorPoints.getSource().clear()
+            vectorPoints.getSource().addFeatures([
+                buildingNameFeature
+            ]);
+            var formData = new FormData(document.getElementById('inputSearch'))
+            var current_lat = position.coords.latitude;
+            var current_lon = position.coords.longitude;
+            destination_coord = actual_coordinate[0] + "," + actual_coordinate[1]//coordinate[0]+","+coordinate[1]
+            $.ajax({
+                url: "{% url 'find_route' %}?current_lat=" + current_lat + "&current_lon=" + current_lon + "&destination_coord=" + destination_coord,
+                type: 'GET',
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    if (result.status) {
+                        displayRoutePoints(result.route);
+                    } else {
+                        console.error("Error finding route:", result.error);
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+        }
+        function displayRoutePoints(route) {
+            Maps.MapOps.initLine(route)
+            debugger;
+            if (route.length >0){
+                // handleButtonClick(8.527586957440617,76.94799267667186)
+                handleButtonClick(route[1][1],route[1][0])
+            }else if (route.length === 0){
+                handleButtonClick(route[0][1],route[0][0])
+            }
+        }
+
+
+    </script>
+
+    <script>
+        // JavaScript code for toggling between full-screen map and split-screen AR view
+        $(document).ready(function () {
+            $('#ar-toggle').click(function () {
+                $('#ar-area').toggleClass('full-screen split-screen');
+                $('#map').toggleClass('height50');
+                $('#ar-content').toggleClass('hidden');
+            });
+            // Show pop-up message when direction button is clicked
+            $('#directionBtn').click(function () {
+                alert("Direction button clicked!");
+            });
+
+            Maps.MapOps.initMaps();
+            Maps.MapOps.initGeotag();
+
+            document.getElementById('locate').addEventListener("click", function (evt) {
+                Maps.MapOps.initGeotag();
+                _isPanned = false;
+            });
+        });
+    </script>
+    <script>
+        function handleButtonClick(latitude,longitude) {
+            var current_lat = position.coords.latitude;
+            var current_lon = position.coords.longitude;
+          var model = document.getElementById('main-modelEntity');
+          model.setAttribute('gps-entity-place', {
+             latitude: latitude,
+             longitude: longitude
+          });
+          model.components["gps-entity-place"]._updatePosition();
+          
+          if (current_lat === latitude && current_lon === longitude) {
+        alert("You have reached the destination!");
+    }
+        }
+        </script>
+    
+</body>
+
+</html>

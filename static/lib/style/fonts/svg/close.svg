@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Component_1_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{fill:none;stroke:#CBCBCB;}
+	.st2{fill:#9C9797;}
+</style>
+<g id="Rectangle_53">
+	<path class="st0" d="M8,0h10c4.4,0,8,3.6,8,8v10c0,4.4-3.6,8-8,8H8c-4.4,0-8-3.6-8-8V8C0,3.6,3.6,0,8,0z"/>
+	<path class="st1" d="M8,0.5h10c4.1,0,7.5,3.4,7.5,7.5v10c0,4.1-3.4,7.5-7.5,7.5H8c-4.1,0-7.5-3.4-7.5-7.5V8C0.5,3.9,3.9,0.5,8,0.5z
+		"/>
+</g>
+<path id="Icon_ionic-md-close" class="st2" d="M20.5,7.4L19,6l-5.8,5.8L7.4,6L6,7.4l5.8,5.8L6,19l1.4,1.4l5.8-5.8l5.8,5.8l1.4-1.4
+	l-5.8-5.8L20.5,7.4z"/>
+</svg>

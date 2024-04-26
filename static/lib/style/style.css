@@ -1,0 +1,234 @@
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+#main {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+
+}
+
+#ar-area {
+    height: 50vh;
+    overflow: auto;
+}
+#search {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+#ar {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 2;
+}
+#error-popup {
+    max-width: 100vw;
+}
+#search .form-control {
+    display: block;
+    width: 100%;
+    height: 60px;
+    border-radius: 50px;
+    border: 1px solid #fffff5;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.2);
+    position: relative;
+    padding: 12px 10px 10px 15px;
+    vertical-align: middle;
+    font-size: 25px;
+    color: #070707;
+}
+#search .form-control:focus {
+    outline: none;
+}
+::-ms-input-placeholder { 
+    color: #c4c4c4;
+    font-size: 25px;
+    font-weight: normal;
+  }
+  
+::placeholder {
+    color: #c4c4c4;
+    font-size: 25px;
+    font-weight: normal;
+}
+#searchbtn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 105px;
+    display: inline-block;
+    width: 98px;
+    height: 60px;
+    z-index: 11;
+    border: 1px solid #f0f0f0;
+    background: #f3f3f3;
+    font-weight: 400;
+    color: #a5a5a5;
+    font-size: 25px;
+    display: none;
+}
+#location {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 60px;
+    height: 60px;
+    display:none;
+}
+#location button {
+    display: inline-block;
+    height: 60px;
+    border: none;
+    background: none;
+}
+.button {
+    background-color: rgb(251, 245, 245);
+    color:black;
+    box-shadow: 0px 0px 10px rgba(120, 120, 120, 0.4);
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    width: 50px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+.a-enter-vr-button {
+    display: none ;
+}
+.ol-zoom {
+    display: none;
+}
+.ol-attribution {
+    display: none !important;
+}
+#arjs-video{
+    width: 100vw !important;
+    margin-left : 0px !important;
+    height: 50vh !important;
+    position: relative !important;
+    object-fit: cover; 
+    position : absolute;
+    top: 50%;
+    margin-top: 0px !important;
+}  
+body{
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin-left: 0px !important;
+}
+.rectangular-box {
+    width: 75%;
+    height: auto;
+    max-height: 100px;
+    background-color:white; 
+    border: 1px solid #ccc; 
+    border-radius: 10px;
+    margin: 0 auto;
+    padding: 10px;
+    overflow-y: auto;
+    margin-top: -20px;
+}
+.searchItemsDiv{
+    width: 92%;
+    height: 15px;
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 25px;
+    padding: 10px;
+    color: gray;
+}
+#direction {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    display: none;
+}
+#directionBtn {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    height: 55px;
+    padding: 0 20px; 
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0px 0px 10px rgba(120, 120, 120, 0.4);
+}
+
+#ar-area.full-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; 
+}
+
+#ar-content.hidden {
+    display: none;
+}
+
+#ar-area.split-screen {
+    height: 50vh;
+    width: 100vw;
+}
+
+.custom-mouse-position{
+    top:90px;
+    position:relative;
+}
+
+a-scene{
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    margin-top: 0px !important;
+}
+video{
+    height: 100vh !important;
+    width: 100vw !important;
+    margin-left: 0px !important;
+}
+#ar-area{
+    width: 100% !important;
+    height: 100% !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50% !important;
+    flex-direction: column;
+}
+/* body{
+    display: flex;
+    min-height: 100vh !important;
+    min-width: 100vw !important;
+    align-items: center;
+    flex-direction: column;
+    width:100vw !important;
+    height: 100vh !important;
+    margin-left: 0px !important;
+} */
+.mapClass{
+    height: 100% !important;
+}
+.height50{
+    height: 50% !important;
+}
+#click{
+    left: 10px;
+    z-index: 2;
+    bottom: 20px; 
+    display:none;
+}
