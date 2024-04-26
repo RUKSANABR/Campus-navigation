@@ -1,0 +1,63 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>campus</title>
+    <script type="text/javascript" src="{% static 'lib/aframes.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/aframes-look-at-component.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/aframes-ar-nft.js' %}"></script>
+    <style>
+        a-scene{
+            display: block;
+            height: 100% !important;
+            width: 100% !important;
+        }
+        video{
+            height: 100vh !important;
+            width: 100vw !important;
+            margin-left: 0px !important;
+        }
+        #ar-area{
+            width: 100% !important;
+            height: 100% !important;
+            position: relative;
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        body{
+            display: flex;
+            min-height: 100vh !important;
+            min-width: 100vw !important;
+            align-items: center;
+            flex-direction: column;
+            width:100vw !important;
+            height: 100vh !important;
+            margin-left: 0px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="ar-area" class="full-screen">
+        <a-scene id="ar-content"  renderer="logarithmicDepthBuffer: true;" embedded
+            loading-screen="enabled: false;" arjs="sourceType: webcam; debugUIEnabled: false;">
+            <a-assets>
+                <a-asset-item id="animated-asset" src="{% static 'asset/asset.gltf' %}"></a-asset-item>
+            </a-assets>
+
+            <a-entity look-at="[gps-camera]" animation-mixer="loop: repeat" gltf-model="#animated-asset"
+                scale="0.21857555349699706 0.21857555349699706 0.21857555349699706"
+                gps-entity-place="latitude: 8.5277596 ; longitude: 76.9478804;"></a-entity>
+
+            <a-camera gps-camera rotation-reader></a-camera>
+        </a-scene>
+    </div>
+</body>
+
+</html>
